@@ -192,8 +192,8 @@ if "__main__" == __name__:
         endpoints, requests, caches, video_size_array, n_video, n_endpoint, n_request = get_input_data(path_to_file)
         
         get_video_size = lambda video_idx: video_size_array[video_idx]
-
-        requests = sorted(requests, key = lambda request : request.n_user_request, reverse = True)
+        
+        requests = sorted(requests, key = lambda request : endpoints[request.endpoint_idx].latency * request.n_user_request, reverse = True)
 
         for req in requests:
             # check the fastest cache in the endpoint
