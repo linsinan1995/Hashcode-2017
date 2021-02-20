@@ -194,22 +194,28 @@ if "__main__" == __name__:
         get_video_size = lambda video_idx: video_size_array[video_idx]
         
         requests = sorted(requests, key = lambda request : endpoints[request.endpoint_idx].latency * request.n_user_request, reverse = True)
+        # requests = sorted(requests, key = lambda request : request.n_user_request, reverse = True) 
 
         for req in requests:
             # check the fastest cache in the endpoint
             endpoint_idx = req.endpoint_idx
+            connected_cache_contain_such_video = False
+
             for cache_idx, cache_latency_to_endpoint in endpoints[endpoint_idx].cache_latency_map.items():
                 if caches[cache_idx].is_video_exist(req.video_idx):
+                    connected_cache_contain_such_video = True
                     break
-                
-                cap = caches[cache_idx].get_capacity()
-                video_size = get_video_size(req.video_idx)
-                if cap >= video_size:
-                    caches[cache_idx].add_video(req.video_idx, video_size)
-                    break
-                else:
-                    pass
-        
+
+            if connected_cache_contain_such_video == False:
+                for cache_idx, cache_latency_to_endpoint in endpoints[endpoint_idx].cache_latency_map.items():
+                    cap = caches[cache_idx].get_capacity()
+                    video_size = get_video_size(req.video_idx)
+                    if cap >= video_size:
+                        caches[cache_idx].add_video(req.video_idx, video_size)
+                        break
+                    else:
+                        pass
+            
         write_result(caches, path_to_output)
         return grading(path_to_output, requests, endpoints, silence)
 

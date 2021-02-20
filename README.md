@@ -1,6 +1,6 @@
 # Hashcode 2017 Qualification round solution
 
-# Greedy 1
+## 1. Greedy 1
 simple greedy solution => put most frequent requested video to the most low-latency cache
 
 result:
@@ -16,7 +16,7 @@ TOTAL SCORE: 1979276
 
 rank at 702 nd according to https://bytefreaks.net/google/google-hash-code-2017-results
 
-# Greedy 2
+## 2. Greedy 2
 
 simple greedy solution => put larget total direct request-time video(number of requests * data center latency) to the most low-latency cache
 
@@ -34,10 +34,26 @@ TOTAL SCORE: 2053200
 
 rank at 566 th
 
-## Merge best results from greedy 1
+### 2.1. Merge best results from greedy 1
 use result of videos_worth_spreading.in from greedy 1
 ```
 TOTAL SCORE: 2058098
 ```
 
 rank at 552 nd
+
+
+## 3. Greedy 2 with updated caching strategy
+
+check all connected cache of the endpoint to avoid abundant caching
+
+```
+me_at_the_zoo.in               => 470098
+videos_worth_spreading.in      => 479678
+trending_today.in              => 499981
+kittens.in.txt                 => 611914
+==========================================================
+TOTAL SCORE: 2061671
+```
+
+rank at 543 rd
